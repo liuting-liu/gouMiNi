@@ -1,0 +1,14 @@
+<view class="tabs">
+  <!-- 标题 -->
+  <view class="tabs_title">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="id"
+      class="title_item {{item.isActive?'active':''}}"
+      bindtap="handelItemTap"
+      data-index="{{index}}"
+    >{{item.value}}</view>
+  </view>
+  <!-- 内容 -->
+  <view class="tabs_content"></view>
+</view>
