@@ -17,33 +17,39 @@
 <view class="cart_content">
   <view class="cart_title">购物车</view>
   <view class="cart_main">
-  <view class="cart_item"
-  wx:for="{{cart}}"
-  wx:key="goods_id"
-  >
-  <!-- 复选框 -->
-  <view class="cart_chk_wrap">
-    <checkbox-group bindchange="">
-      <checkbox checked="{{item.checked}}"></checkbox>
-    </checkbox-group>
-  </view>
-  <!-- 商品图片 -->
-  <navigator class="cart_img_wrap">
-    <image mode="widthFix" src="{{item.goods_small_logo}}"></image>
-  </navigator>
-  <!-- 商品信息 -->
-  <view class="cart_info_wrap">
-    <view class="goods_name">{{item.goods_name}}</view>
-      <view class="goods_price_wrap">
-        <view class="goods price">￥{{item.goods_price}}</view>
-        <view class="cart_num_tool">
-          <view class="num_edit">-</view>
-          <view class="goods_num">{{item.num}}</view>
-          <view class="num_edit">+</view>
+    <!-- 当cart数组 长度不为0  显示商品信息 -->
+  <block wx:if="{{cart.length!==0}}">
+    <view class="cart_item"
+    wx:for="{{cart}}"
+    wx:key="goods_id"
+    >
+    <!-- 复选框 -->
+    <view class="cart_chk_wrap">
+      <checkbox-group bindchange="">
+        <checkbox checked="{{item.checked}}"></checkbox>
+      </checkbox-group>
+    </view>
+    <!-- 商品图片 -->
+    <navigator class="cart_img_wrap">
+      <image mode="widthFix" src="{{item.goods_small_logo}}"></image>
+    </navigator>
+    <!-- 商品信息 -->
+    <view class="cart_info_wrap">
+      <view class="goods_name">{{item.goods_name}}</view>
+        <view class="goods_price_wrap">
+          <view class="goods price">￥{{item.goods_price}}</view>
+          <view class="cart_num_tool">
+            <view class="num_edit" bindtap="handleItemNumEdit" data-id="{{item.goods_id}}" data-operation="{{-1}}">-</view>
+            <view class="goods_num">{{item.num}}</view>
+            <view class="num_edit" bindtap="handleItemNumEdit" data-id="{{item.goods_id}}" data-operation="{{1}}">+</view>
+          </view>
         </view>
       </view>
     </view>
-  </view>
+  </block>
+  <block wx:else>
+    <image mode="widthFix" src="https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=购物车空了的照片&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyright=undefined&cs=1495549002,2092677697&os=2907929875,2221540102&simid=0,0&pn=0&rn=1&di=3520&ln=1458&fr=&fmq=1609566217933_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&hs=2&objurl=https%3A%2F%2Fgimg2.baidu.com%2Fimage_search%2Fsrc%3Dhttp%253A%252F%252Fhbimg.b0.upaiyun.com%252Fa4064bdab5f6c800ed664014f3eb7d13a4dd25b3138d0-hYHe07_fw658%26refer%3Dhttp%253A%252F%252Fhbimg.b0.upaiyun.com%26app%3D2002%26size%3Df9999%2C10000%26q%3Da80%26n%3D0%26g%3D0n%26fmt%3Djpeg%3Fsec%3D1612158217%26t%3D4dfff5c50f616efbfbc7dc69ed8da1a2&rpstart=0&rpnum=0&adpicid=0&force=undefined"></image>
+  </block>
   </view>
   </view>
 
@@ -51,20 +57,20 @@
 <view class="footer_tool">
   <!-- 全选 -->
   <view class="all_chk_wrap">
-    <checkbox-group>
+    <checkbox-group data-id="{{item.goods_id}}" bindchange="handleItemAllCheck" bindchange="handleItemChange">
       <checkbox checked="{{allChecked}}">全选</checkbox>
     </checkbox-group>
   </view>
   <!-- 总价格 -->
   <view class="total_price_wrap">
     <view class="total_price">
-      合计:<text class="total_price_text">￥999</text>
+      合计:<text class="total_price_text">￥{{totalPrice}}</text>
     </view>
     <view>包含运费</view>
   </view>
   <!-- 结算 -->
-  <view class="order_pay_wrap">
-    结算(2)
+  <view class="order_pay_wrap" bindtap="handlePay">
+    结算{{totalNum}}
   </view>
 </view>
 
